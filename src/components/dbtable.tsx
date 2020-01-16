@@ -13,6 +13,7 @@ const Table = styled.div<ITableProps>`
   font-size: 60%;
   border-radius: 3px;
   transition: 0.3s;
+  border: 2px solid #26c281';
 `;
 
 const TableRowsList = styled.ul`
@@ -20,9 +21,12 @@ const TableRowsList = styled.ul`
   height: 150px;
 `;
 
+/**
+ * 每个字段一行
+ */
 interface ITableRowProps {
   affected: boolean;
-  inTheQuery: boolean;
+  inTheQuery: boolean;  //是否是查询条件
 }
 
 const TableRow = styled.li<ITableRowProps>`
@@ -45,7 +49,9 @@ const TableCell = styled.p`
   align-items: center;
 `;
 
-
+/**
+ * 外键关系
+ */
 interface IForeignKey {
   column_name?: string;
   constraint_name?: string;
@@ -56,23 +62,43 @@ interface IForeignKey {
   table_schema?: string;
 }
 
+/**
+ * 主键定义
+ */
 interface IPrimaryKeyAffected {
   primaryKeyColumn: string;
   primaryKeyTable: string;
 }
 
+/**
+ * ？？？
+ */
 interface IForeignKeysAffected {
   column: string;
   table: string;
 }
-
-interface IColumnsMetaData {
+/**
+ * 数据表元数据
+ */
+export interface ITableMetaData {
+  tablename: string;
+  comment?: string,
+  columns: IColumnsMetaData[];
+}
+/**
+ * 字段的元数据
+ */
+export interface IColumnsMetaData {
   characterlength?: string;
   columnname: string;
   datatype: string;
   defaultvalue: string;
+  comment?: string;
 }
 
+/**
+ * ？？？？
+ */
 interface IActiveTableInPanel {
   columns?: IColumnsMetaData[];
   foreignKeys?: IForeignKey[];
@@ -81,7 +107,10 @@ interface IActiveTableInPanel {
   table_name?: string;
 }
 
-interface Props {
+/**
+ * 表组件属性
+ */
+interface ITableWaperProps {
   key: string;
   tableName: string;
   columns: IColumnsMetaData[];
@@ -91,13 +120,13 @@ interface Props {
   foreignKeysAffected: IForeignKeysAffected[];
   activeTableInPanel: IActiveTableInPanel;
   selectedForQueryTables: any;
-  captureMouseExit: () => void;
-  captureMouseEnter: () => void;
-  captureQuerySelections: () => void;
+  captureMouseExit?: () => void;
+  captureMouseEnter?: () => void;
+  captureQuerySelections?: () => void;
 }
 
 
-const Tables: React.SFC<Props> = ({
+const Tables: React.SFC<ITableWaperProps> = ({
   tableName,
   columns,
   primarykey,
@@ -128,7 +157,7 @@ const Tables: React.SFC<Props> = ({
         inTheQuery = true;
     }
 
-    if (
+    if (primaryKeyAffected && primaryKeyAffected[0] &&
       primaryKeyAffected[0].primaryKeyColumn === columns[keys].columnname &&
       primaryKeyAffected[0].primaryKeyTable === tableName
     )

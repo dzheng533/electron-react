@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
-//import * as actions from '../../actions/actions';
 import Tables from './dbtable';
-import changePinnedStatus from '../reducers/ChangePinnedStatus';
-//import { Text } from "grommet";
+//import changePinnedStatus from '../reducers/ChangePinnedStatus';
 import { Pin, CircleInformation, Halt } from 'grommet-icons';
 
 /**
@@ -92,7 +90,7 @@ let selectedColumnName: string;
  * 表容器
  */
 interface ITablesContainerProps {
-  data: any;
+  data: [any];
   userInputForTables: string;
   activeTableInPanel: any;
   selectedForQueryTables: any;
@@ -114,7 +112,7 @@ const TablesContainer: React.SFC<ITablesContainerProps> = ({
   const [mouseOver, setMouseOver] = useState(); //data to detect if mouse is over a pk or fk
   const [filteredTables, setFilteredTables] = useState([]);
   const [pinnedTables, setPinnedTables] = useState([]);
-  const [pinnedTableNames, dispatchPinned] = useReducer(changePinnedStatus, []);
+  //const [pinnedTableNames, dispatchPinned] = useReducer(changePinnedStatus, []);
   const [foreignKeysAffected, setForeignKeysAffected] = useState([]);
   const [primaryKeyAffected, setPrimaryKeyAffected] = useState([
     {
@@ -131,9 +129,9 @@ const TablesContainer: React.SFC<ITablesContainerProps> = ({
       for (let i = 0; i < relationships[table].length; i++) {
         temptables.push(relationships[table][i].fktablename)
       }
-      setTablesRelated(temptables);
+      //setTablesRelated(temptables);
     }
-    setTablesRelated(temptables);
+    //setTablesRelated(temptables);
   }, [captureQuerySelections])
 
   useEffect(() => {
@@ -152,7 +150,7 @@ const TablesContainer: React.SFC<ITablesContainerProps> = ({
           }
         ]);
       }
-
+/*
       if (isPrimaryKey === 'true') {
         const allForeignKeys: IForeignKey[] = [];
         data.forEach((table): void => {
@@ -168,12 +166,13 @@ const TablesContainer: React.SFC<ITablesContainerProps> = ({
           });
         });
         setForeignKeysAffected(allForeignKeys);
-      }
+      }*/
     }
   }, [data, mouseOver, selectedForQueryTables]);
 
   //Builds out tables to display
   useEffect((): void => {
+    /*
     const pinned = [];
     const filtered = [];
 
@@ -293,13 +292,12 @@ const TablesContainer: React.SFC<ITablesContainerProps> = ({
       });
       setFilteredTables(filtered);
       setPinnedTables(pinned);
-    }
+    }*/
   }, [
       data,
       foreignKeysAffected,
       primaryKeyAffected,
       userInputForTables,
-      pinnedTableNames,
       activeTableInPanel,
       selectedForQueryTables
     ]);
