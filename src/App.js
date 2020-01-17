@@ -1,13 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {ITableMetaData, IColumnsMetaData} from "./components/dbtable";
+//import './App.css';
 import TableList from "./components/TableList";
 
 function App() {
   let tableList = [ ];
   let table = {
-     tablename: "t_cfg_index_def",
+     tablename: "t_cfg_index_def1",
      comment: "指标定义表",
      columns: [
        {
@@ -27,7 +25,7 @@ function App() {
      ]
   };
   let table2 = {
-    tablename: "t_cfg_index_def",
+    tablename: "t_cfg_index_def2",
     comment: "指标定义表",
     columns: [
       {

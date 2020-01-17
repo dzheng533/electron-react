@@ -13,7 +13,7 @@ const Table = styled.div<ITableProps>`
   font-size: 60%;
   border-radius: 3px;
   transition: 0.3s;
-  border: 2px solid #26c281';
+  border: '2px solid #26c281';
 `;
 
 const TableRowsList = styled.ul`
@@ -246,14 +246,13 @@ const Tables: React.SFC<ITableWaperProps> = ({
       </TableRow>
     );
   }
-
   return (
     <Table
       key={tableName}
       selectedtable={activeTableInPanel.table_name}
       tablename={tableName}
     >
-      <TableRowsList>{rows}</TableRowsList>
+    <TableRowsList>{rows}</TableRowsList>
     </Table>
   );
 };

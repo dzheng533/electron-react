@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Tables , { ITableMetaData, IColumnsMetaData } from './dbtable';
+//import Tables , { ITableMetaData, IColumnsMetaData } from './dbtable';
+import Table , { ITableMetaData, IColumnsMetaData } from './Table';
 
 /**
  * 空表状态
@@ -15,12 +16,32 @@ const SEmptyState = styled.div`
  * 总容器
  */
 const TempWrapper = styled.div`
-    overflow: scroll;
-    height: 100%;
-    width: 100%;
+    overflow: scroll-x;
+    height: calc('100% - 20px');
+    width: calc('100% - 20px');
     display: flex;
+    border: '1px solid grey';
     flex-wrap: wrap;
     padding: 5px 15px;
+    ::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #D62929;
+}
 `;
 /**
  * 表格容器
@@ -28,7 +49,7 @@ const TempWrapper = styled.div`
 interface ITableWrapperProps {
     highlightForRelationship: string;
 }
-  
+
 const TableWrapper = styled.div<ITableWrapperProps>`
     width: 150px;
     max-height: 200px;
@@ -43,7 +64,7 @@ interface ITablesListProps {
     tables: ITableMetaData[]
 }
 
-const TablesList: React.SFC<ITablesListProps> = ({
+const TablesList: React.FC<ITablesListProps> = ({
     tables
   }) => {
       const [filtered, setPinnedTables] = useState([]);
@@ -52,23 +73,14 @@ const TablesList: React.SFC<ITablesListProps> = ({
           const table = tables[tkey]
           tmpTables.push(
             <TableWrapper highlightForRelationship={'false'}>
-                  <Tables
-                   key={table.tablename} 
-                   tableName={table.tablename}
-                   columns={table.columns}
-                   primarykey={"IND_ID"}
-                   foreignkeys={[]}
-                   primaryKeyAffected={[]}
-                   foreignKeysAffected={[]}
-                   activeTableInPanel={{}}
-                   selectedForQueryTables={[]}
-                   
-                   captureMouseExit={()=>{ console.log("Mouse exit.")}}
-                   ></Tables>
+                  <Table
+                    key={table.tablename}
+                    tablename={table.tablename}
+                    columns={table.columns}
+                    comment={table.comment}
+                   ></Table>
             </TableWrapper>)
       }
-
-      //setPinnedTables(tmpTables)
 
       if(tables.length > 0){
         return (
@@ -76,11 +88,13 @@ const TablesList: React.SFC<ITablesListProps> = ({
         );      
       }
       return (
+        <TempWrapper>
         <SEmptyState>
           <span>
             Sorry, there are no tables that matched your search. <br /> Please search again.
         </span>
         </SEmptyState>
+        </TempWrapper>
       );
   }
 

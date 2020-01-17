@@ -1,0 +1,13 @@
+<Tables
+                   key={table.tablename} 
+                   tableName={table.tablename}
+                   columns={table.columns}
+                   primarykey={"IND_ID"}
+                   foreignkeys={[]}
+                   primaryKeyAffected={[]}
+                   foreignKeysAffected={[]}
+                   activeTableInPanel={{}}
+                   selectedForQueryTables={[]}
+                   
+                   captureMouseExit={()=>{ console.log("Mouse exit.")}}
+                   ></Tables>
