@@ -56,8 +56,8 @@ const TableWrapper = styled.div<ITableWrapperProps>`
     border-radius: 3px;
     overflow: hidden;
     margin: 8px;
-    border: ${({ highlightForRelationship }) => (highlightForRelationship == 'true' ? '1px solid transparent' : '1px solid grey')};
-    box-shadow: ${({ highlightForRelationship }) => (highlightForRelationship == 'true' ? '0px 0px 8px #4B70FE' : 'none')};
+    border: ${({ highlightForRelationship }) => (highlightForRelationship === 'true' ? '1px solid transparent' : '1px solid grey')};
+    box-shadow: ${({ highlightForRelationship }) => (highlightForRelationship === 'true' ? '0px 0px 8px #4B70FE' : 'none')};
 `;
 
 interface ITablesListProps {

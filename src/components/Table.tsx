@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { License, StatusGood } from 'grommet-icons';
 
 interface ITableProps {
     selectedtable?: string;
     tablename: string;
 }
-  
+/**
+ * 表格外容器
+ */
 const TableContainer = styled.div<ITableProps>`
     display: flex;
     flex-direction: column;
@@ -21,36 +24,20 @@ const TableTitle = styled.p`
   font-size: 90%;
   padding: 5px;
   overflow-wrap: break-word;
+  border-bottom: 1px solid #26c281;
   :hover {
-    transform: scale(1.01);
+    transform: scale(1.05);
   }
 `;
-
 /**
- * 字段的元数据
+ * 表列的容器
  */
-export interface IColumnsMetaData {
-  characterlength?: string;
-  columnname: string;
-  datatype: string;
-  defaultvalue: string;
-  comment?: string;
-}
-
-/**
- * 数据表元数据
- */
-export interface ITableMetaData {
-  tablename: string;
-  comment?: string,
-  columns: IColumnsMetaData[];
-}
-
-
 const TableRowsList = styled.ul`
   overflow: scroll;
   height: 150px;
+  padding: 3px;
 `;
+
 /**
  * 每个字段一行
  */
@@ -75,7 +62,38 @@ const TableCell = styled.p`
   font-size: 100%;
   display: flex;
   align-items: center;
+  margin: 2px 0px 2px 0px;
 `;
+
+/**
+ * 字段的元数据
+ */
+export interface IColumnsMetaData {
+  characterlength?: string;
+  columnname: string;
+  datatype: string;
+  defaultvalue: string;
+  comment?: string;
+}
+
+/**
+ * 数据表元数据
+ */
+export interface ITableMetaData {
+  tablename: string;
+  comment?: string,
+  columns: IColumnsMetaData[];
+}
+
+
+
+
+const handleColumnClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  let tag = e.target;
+  console.log("column click", e.target );
+
+ }
+
 
 const Table: React.FC<ITableMetaData> = ({
     tablename, columns, comment
@@ -85,11 +103,17 @@ const Table: React.FC<ITableMetaData> = ({
         console.log('tablename',tablename,columns)
     })
     const cells = [];
+    const inTheQuery = true;
     for(const col in columns){
         cells.push(
-            <TableRow affected={false} inTheQuery = {false} >
-            <TableCell>{columns[col].columnname}</TableCell>
-
+            <TableRow onClick={handleColumnClick} affected={false} inTheQuery = {false} title={columns[col].comment}
+            data-tablename={tablename}
+            data-columnname={columns[col].columnname}>
+            {inTheQuery && (
+            <StatusGood style={{ height: '15px' }} color="#26c281" />
+          )}
+              <TableCell>{columns[col].columnname}</TableCell>
+              <TableCell>{columns[col].datatype}</TableCell>
             </TableRow>
         )
     }
